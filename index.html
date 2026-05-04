@@ -20,6 +20,16 @@
 </head>
 <body>
 
+<div id="loginBox" style="padding:20px;">
+  <h2>Login</h2>
+  <input type="text" id="username" placeholder="Masukkan nama">
+  <select id="role">
+    <option value="siswa">Siswa</option>
+    <option value="guru">Guru</option>
+  </select>
+  <button onclick="login()">Masuk</button>
+</div>
+
 <header>
   <h1>LMS Matematika</h1>
   <p>Belajar Interaktif & Mandiri</p>
@@ -149,6 +159,39 @@ window.onload = function() {
   tampilMateri();
   tampilTugas();
   tampilNilai();
+}
+
+function login(){
+  let user = document.getElementById('username').value;
+  let role = document.getElementById('role').value;
+
+  localStorage.setItem('user', user);
+  localStorage.setItem('role', role);
+
+  document.getElementById('loginBox').style.display = 'none';
+  tampilkanMenu(role);
+}
+
+function tampilkanMenu(role){
+  if(role === 'siswa'){
+    document.querySelector("button[onclick=\"openMenu('materi')\"]").style.display = 'block';
+    document.querySelector("button[onclick=\"openMenu('latihan')\"]").style.display = 'block';
+    document.querySelector("button[onclick=\"openMenu('nilai')\"]").style.display = 'block';
+
+    // sembunyikan fitur guru
+    document.querySelector("button[onclick=\"openMenu('tugas')\"]").style.display = 'none';
+  } else {
+    // guru lihat semua
+    document.querySelectorAll('nav button').forEach(btn => btn.style.display = 'block');
+  }
+}
+
+window.onload = function() {
+  let role = localStorage.getItem('role');
+  if(role){
+    document.getElementById('loginBox').style.display = 'none';
+    tampilkanMenu(role);
+  }
 }
 </script>
 
