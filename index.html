@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LMS Matematika</title>
+  <style>
+    body {font-family: Arial; margin:0; background:#eef2f7;}
+    header {background:#1e88e5; color:white; padding:15px; text-align:center;}
+    nav {display:flex; background:#0d47a1;}
+    nav button {flex:1; padding:12px; color:white; border:none; background:none; cursor:pointer;}
+    nav button:hover {background:#1565c0;}
+    .content {display:none; padding:20px;}
+    .active {display:block;}
+    .card {background:white; padding:15px; border-radius:12px; margin-bottom:15px; box-shadow:0 3px 6px rgba(0,0,0,0.1);}
+    input, textarea {width:100%; padding:8px; margin-top:8px;}
+    button {padding:10px; margin-top:10px; border:none; border-radius:6px; cursor:pointer;}
+    .primary {background:#1e88e5; color:white;}
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>LMS Matematika</h1>
+  <p>Belajar Interaktif & Mandiri</p>
+</header>
+
+<nav>
+  <button onclick="openMenu('dashboard')">Dashboard</button>
+  <button onclick="openMenu('materi')">Materi</button>
+  <button onclick="openMenu('latihan')">Latihan</button>
+  <button onclick="openMenu('tugas')">Tugas</button>
+  <button onclick="openMenu('nilai')">Nilai</button>
+</nav>
+
+<!-- Dashboard -->
+<div id="dashboard" class="content active">
+  <div class="card">
+    <h2>Selamat Datang</h2>
+    <p>Gunakan LMS ini untuk belajar matematika dengan lebih terstruktur.</p>
+  </div>
+</div>
+
+<!-- Materi -->
+<div id="materi" class="content">
+  <div class="card">
+    <h2>Tambah Materi (Guru)</h2>
+    <input type="text" id="judulMateri" placeholder="Judul Materi">
+    <textarea id="isiMateri" placeholder="Isi Materi"></textarea>
+    <button class="primary" onclick="tambahMateri()">Simpan</button>
+  </div>
+  <div id="listMateri"></div>
+</div>
+
+<!-- Latihan -->
+<div id="latihan" class="content">
+  <div class="card">
+    <h2>Latihan Soal</h2>
+    <p>Contoh: 2 + 3 = ?</p>
+    <input type="number" id="jawaban">
+    <button class="primary" onclick="cekJawaban()">Cek</button>
+    <p id="hasil"></p>
+  </div>
+</div>
+
+<!-- Tugas -->
+<div id="tugas" class="content">
+  <div class="card">
+    <h2>Tambah Tugas (Guru)</h2>
+    <input type="text" id="judulTugas" placeholder="Judul Tugas">
+    <textarea id="isiTugas" placeholder="Deskripsi"></textarea>
+    <button class="primary" onclick="tambahTugas()">Simpan</button>
+  </div>
+  <div id="listTugas"></div>
+</div>
+
+<!-- Nilai -->
+<div id="nilai" class="content">
+  <div class="card">
+    <h2>Nilai Siswa</h2>
+    <p id="nilaiSiswa">Belum ada nilai</p>
+  </div>
+</div>
+
+<script>
+function openMenu(menu) {
+  document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+  document.getElementById(menu).classList.add('active');
+}
+
+// Materi
+function tambahMateri() {
+  let judul = document.getElementById('judulMateri').value;
+  let isi = document.getElementById('isiMateri').value;
+  let data = JSON.parse(localStorage.getItem('materi')) || [];
+  data.push({judul, isi});
+  localStorage.setItem('materi', JSON.stringify(data));
+  tampilMateri();
+}
+
+function tampilMateri() {
+  let data = JSON.parse(localStorage.getItem('materi')) || [];
+  let html = '';
+  data.forEach(m => {
+    html += `<div class='card'><h3>${m.judul}</h3><p>${m.isi}</p></div>`;
+  });
+  document.getElementById('listMateri').innerHTML = html;
+}
+
+// Latihan
+function cekJawaban() {
+  let jawab = document.getElementById('jawaban').value;
+  if(jawab == 5){
+    document.getElementById('hasil').innerText = 'Benar!';
+    localStorage.setItem('nilai', '100');
+  } else {
+    document.getElementById('hasil').innerText = 'Salah, coba lagi';
+    localStorage.setItem('nilai', '50');
+  }
+}
+
+// Tugas
+function tambahTugas() {
+  let judul = document.getElementById('judulTugas').value;
+  let isi = document.getElementById('isiTugas').value;
+  let data = JSON.parse(localStorage.getItem('tugas')) || [];
+  data.push({judul, isi});
+  localStorage.setItem('tugas', JSON.stringify(data));
+  tampilTugas();
+}
+
+function tampilTugas() {
+  let data = JSON.parse(localStorage.getItem('tugas')) || [];
+  let html = '';
+  data.forEach(t => {
+    html += `<div class='card'><h3>${t.judul}</h3><p>${t.isi}</p></div>`;
+  });
+  document.getElementById('listTugas').innerHTML = html;
+}
+
+// Nilai
+function tampilNilai() {
+  let nilai = localStorage.getItem('nilai') || 'Belum ada';
+  document.getElementById('nilaiSiswa').innerText = nilai;
+}
+
+// Load awal
+window.onload = function() {
+  tampilMateri();
+  tampilTugas();
+  tampilNilai();
+}
+</script>
+
+</body>
+</html>
