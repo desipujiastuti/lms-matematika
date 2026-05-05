@@ -135,6 +135,9 @@ function tampilkanMenu(role){
   } else {
     document.querySelectorAll('nav button').forEach(btn => btn.style.display = 'block');
   }
+
+  // 🔥 WAJIB: tampilkan logout untuk semua
+  document.querySelector("button[onclick='logout()']").style.display = 'block';
 }
 
 function tampil(...menuList){
