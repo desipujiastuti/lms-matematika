@@ -1,239 +1,242 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LMS Matematika</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LMS Matematika</title>
 
-  <style>
-    body {font-family: Arial; margin:0; background:#eef2f7;}
-    header {background:#1e88e5; color:white; padding:15px; text-align:center;}
-    nav {display:flex; background:#0d47a1;}
-    nav button {flex:1; padding:12px; color:white; border:none; background:none; cursor:pointer;}
-    nav button:hover {background:#1565c0;}
-    .content {display:none; padding:20px;}
-    .active {display:block;}
-    .card {background:white; padding:15px; border-radius:12px; margin-bottom:15px; box-shadow:0 3px 6px rgba(0,0,0,0.1);}
-    input, textarea {width:100%; padding:8px; margin-top:8px;}
-    button {padding:10px; margin-top:10px; border:none; border-radius:6px; cursor:pointer;}
-    .primary {background:#1e88e5; color:white;}
-  </style>
+<style>
+body {
+  margin:0;
+  font-family: 'Segoe UI', sans-serif;
+  display:flex;
+  background:#f4f7fb;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width:220px;
+  background:#1e88e5;
+  color:white;
+  height:100vh;
+  padding:20px;
+}
+
+.sidebar h2 {
+  text-align:center;
+}
+
+.sidebar button {
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border:none;
+  background:none;
+  color:white;
+  text-align:left;
+  cursor:pointer;
+  border-radius:8px;
+}
+
+.sidebar button:hover {
+  background:#1565c0;
+}
+
+/* MAIN */
+.main {
+  flex:1;
+  padding:20px;
+}
+
+.header {
+  background:white;
+  padding:15px;
+  border-radius:12px;
+  margin-bottom:20px;
+  box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* CONTENT */
+.content {
+  display:none;
+}
+
+.active {
+  display:block;
+}
+
+/* CARD */
+.card {
+  background:white;
+  padding:20px;
+  border-radius:12px;
+  margin-bottom:15px;
+  box-shadow:0 3px 6px rgba(0,0,0,0.1);
+}
+
+.card a {
+  display:block;
+  margin-top:10px;
+  color:#1e88e5;
+  text-decoration:none;
+}
+
+.card a:hover {
+  text-decoration:underline;
+}
+
+/* LOGIN */
+#loginBox {
+  position:fixed;
+  top:0; left:0;
+  width:100%;
+  height:100%;
+  background:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.login-card {
+  background:#fff;
+  padding:30px;
+  border-radius:12px;
+  box-shadow:0 3px 10px rgba(0,0,0,0.2);
+  width:300px;
+}
+
+input, select {
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+}
+
+button.primary {
+  width:100%;
+  background:#1e88e5;
+  color:white;
+  border:none;
+  padding:10px;
+  margin-top:15px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+button.primary:hover {
+  background:#1565c0;
+}
+</style>
 </head>
 
 <body>
 
 <!-- LOGIN -->
-<div id="loginBox" style="padding:20px;">
-  <h2>Login</h2>
-  <input type="text" id="username" placeholder="Masukkan nama">
-  <select id="role">
-    <option value="siswa">Siswa</option>
-    <option value="guru">Guru</option>
-  </select>
-  <button onclick="login()">Masuk</button>
+<div id="loginBox">
+  <div class="login-card">
+    <h2>Login LMS</h2>
+    <input type="text" id="username" placeholder="Nama">
+    <select id="role">
+      <option value="siswa">Siswa</option>
+      <option value="guru">Guru</option>
+    </select>
+    <button class="primary" onclick="login()">Masuk</button>
+  </div>
 </div>
 
-<header>
-  <h1>LMS Matematika</h1>
-  <p>Belajar Interaktif & Mandiri</p>
-</header>
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <h2>LMS</h2>
+  <button onclick="openMenu('dashboard')">🏠 Dashboard</button>
+  <button onclick="openMenu('materi')">📚 Materi</button>
+  <button onclick="openMenu('latihan')">🧠 Latihan</button>
+  <button onclick="openMenu('tugas')">📝 Tugas</button>
+  <button onclick="openMenu('nilai')">📊 Nilai</button>
+  <button onclick="logout()">🚪 Logout</button>
+</div>
 
-<nav>
-  <button onclick="openMenu('dashboard')">Dashboard</button>
-  <button onclick="openMenu('materi')">Materi</button>
-  <button onclick="openMenu('latihan')">Latihan</button>
-  <button onclick="openMenu('tugas')">Tugas</button>
-  <button onclick="openMenu('nilai')">Nilai</button>
-  <button onclick="logout()" style="background:#e53935;">Logout</button>
-</nav>
+<!-- MAIN -->
+<div class="main">
 
-<!-- Dashboard -->
+<div class="header">
+  <h2 id="welcome">Halo</h2>
+</div>
+
+<!-- DASHBOARD -->
 <div id="dashboard" class="content active">
   <div class="card">
-    <h2>Selamat Datang</h2>
-    <p id="welcomeText"></p>
+    <h3>Selamat Datang</h3>
+    <p>Gunakan LMS ini untuk belajar matematika dengan lebih mudah dan interaktif.</p>
   </div>
 </div>
 
-<!-- Materi -->
+<!-- MATERI -->
 <div id="materi" class="content">
   <div class="card">
-    <h2>Tambah Materi (Guru)</h2>
-    <input type="text" id="judulMateri">
-    <textarea id="isiMateri"></textarea>
-    <button class="primary" onclick="tambahMateri()">Simpan</button>
+    <h3>Materi</h3>
+    <a href="https://drive.google.com/drive/folders/19fXvCwJmOpQLSPDEidrH-oQO_yuK3Srd?usp=drive_link" target="_blank">📥 Download Materi 1</a>
+    <a href="LINK_MATERI_2" target="_blank">📥 Download Materi 2</a>
   </div>
-  <div id="listMateri"></div>
 </div>
 
-<!-- Latihan -->
+<!-- LATIHAN -->
 <div id="latihan" class="content">
   <div class="card">
-    <h2>Latihan Soal</h2>
+    <h3>Latihan Soal</h3>
     <p>2 + 3 = ?</p>
-    <input type="number" id="jawaban">
-    <button class="primary" onclick="cekJawaban()">Cek</button>
+    <input id="jawab">
+    <button class="primary" onclick="cek()">Cek</button>
     <p id="hasil"></p>
   </div>
 </div>
 
-<!-- Tugas -->
+<!-- TUGAS -->
 <div id="tugas" class="content">
   <div class="card">
-    <h2>Tambah Tugas (Guru)</h2>
-    <input type="text" id="judulTugas">
-    <textarea id="isiTugas"></textarea>
-    <button class="primary" onclick="tambahTugas()">Simpan</button>
+    <h3>Kumpulkan Tugas</h3>
+    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd13ZgGXpU1jcg2jgc1lc80HGgOvsdmMAF4SHijyEchNXd6NQ/viewform" width="100%" height="500"></iframe>
   </div>
-  <div id="listTugas"></div>
 </div>
 
-<!-- Nilai -->
+<!-- NILAI -->
 <div id="nilai" class="content">
   <div class="card">
-    <h2>Nilai Siswa</h2>
-    <p id="nilaiSiswa"></p>
+    <h3>Nilai Siswa</h3>
+    <iframe src="https://docs.google.com/spreadsheets/d/1rPjg4I7lWjx7ktOACu7QNv4eeUN1-NtXYUSjvieMhQI/edit?resourcekey=&gid=91890700#gid=91890700" width="100%" height="400"></iframe>
   </div>
+</div>
+
 </div>
 
 <script>
-
-// MENU
-function openMenu(menu) {
+function openMenu(menu){
   document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
   document.getElementById(menu).classList.add('active');
 }
 
-// LOGIN
 function login(){
-  let user = document.getElementById('username').value;
-  let role = document.getElementById('role').value;
-
+  let user = username.value;
   localStorage.setItem('user', user);
-  localStorage.setItem('role', role);
-
-  document.getElementById('loginBox').style.display = 'none';
-
-  tampilkanMenu(role);
-  tampilWelcome();
+  loginBox.style.display = 'none';
+  welcome.innerText = "Halo, " + user;
 }
 
-// LOGOUT
 function logout(){
   localStorage.clear();
-  document.getElementById('loginBox').style.display = 'block';
-  document.querySelectorAll('nav button').forEach(btn => btn.style.display = 'none');
-  openMenu('dashboard');
+  location.reload();
 }
 
-// ROLE MENU
-function tampilkanMenu(role){
-  document.querySelectorAll('nav button').forEach(btn => btn.style.display = 'none');
-
-  if(role === 'siswa'){
-    tampil('dashboard','materi','latihan','nilai');
-  } else {
-    document.querySelectorAll('nav button').forEach(btn => btn.style.display = 'block');
-  }
-
-  // 🔥 WAJIB: tampilkan logout untuk semua
-  document.querySelector("button[onclick='logout()']").style.display = 'block';
+function cek(){
+  let j = document.getElementById('jawab').value;
+  hasil.innerText = (j == 5) ? "Benar 👍" : "Salah ❌";
 }
 
-function tampil(...menuList){
-  menuList.forEach(m => {
-    document.querySelector(`button[onclick="openMenu('${m}')"]`).style.display = 'block';
-  });
-}
-
-// WELCOME
-function tampilWelcome(){
+window.onload = function(){
   let user = localStorage.getItem('user');
-  document.getElementById('welcomeText').innerText = "Halo, " + user;
-}
-
-// MATERI
-function tambahMateri() {
-  let judul = document.getElementById('judulMateri').value;
-  let isi = document.getElementById('isiMateri').value;
-
-  let data = JSON.parse(localStorage.getItem('materi')) || [];
-  data.push({judul, isi});
-
-  localStorage.setItem('materi', JSON.stringify(data));
-  tampilMateri();
-}
-
-function tampilMateri() {
-  let data = JSON.parse(localStorage.getItem('materi')) || [];
-  let html = '';
-
-  data.forEach(m => {
-    html += `<div class='card'><h3>${m.judul}</h3><p>${m.isi}</p></div>`;
-  });
-
-  document.getElementById('listMateri').innerHTML = html;
-}
-
-// LATIHAN
-function cekJawaban() {
-  let jawab = document.getElementById('jawaban').value;
-
-  if(jawab == 5){
-    document.getElementById('hasil').innerText = 'Benar!';
-    localStorage.setItem('nilai', '100');
-  } else {
-    document.getElementById('hasil').innerText = 'Salah';
-    localStorage.setItem('nilai', '50');
+  if(user){
+    loginBox.style.display = 'none';
+    welcome.innerText = "Halo, " + user;
   }
 }
-
-// TUGAS
-function tambahTugas() {
-  let judul = document.getElementById('judulTugas').value;
-  let isi = document.getElementById('isiTugas').value;
-
-  let data = JSON.parse(localStorage.getItem('tugas')) || [];
-  data.push({judul, isi});
-
-  localStorage.setItem('tugas', JSON.stringify(data));
-  tampilTugas();
-}
-
-function tampilTugas() {
-  let data = JSON.parse(localStorage.getItem('tugas')) || [];
-  let html = '';
-
-  data.forEach(t => {
-    html += `<div class='card'><h3>${t.judul}</h3><p>${t.isi}</p></div>`;
-  });
-
-  document.getElementById('listTugas').innerHTML = html;
-}
-
-// NILAI
-function tampilNilai() {
-  let nilai = localStorage.getItem('nilai') || 'Belum ada';
-  document.getElementById('nilaiSiswa').innerText = nilai;
-}
-
-// LOAD AWAL
-window.onload = function() {
-  tampilMateri();
-  tampilTugas();
-  tampilNilai();
-
-  let role = localStorage.getItem('role');
-
-  document.querySelectorAll('nav button').forEach(btn => btn.style.display = 'none');
-
-  if(role){
-    document.getElementById('loginBox').style.display = 'none';
-    tampilkanMenu(role);
-    tampilWelcome();
-  }
-}
-
 </script>
 
 </body>
